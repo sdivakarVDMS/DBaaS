@@ -1,49 +1,66 @@
 swagger: '2.0'
 info:
-  title: Polls Swagger
-  description: Polls is a simple API allowing consumers to view polls and vote in them.
+  title: DB as a Service ( DBAAS )
+  description: This would provide DB Service to external world. The users 
+      can use to service to store / retrieve / update data. The service will
+      provide both the SQL and No-SQL endpoints. 
   version: "8234aab51481d37a30757d925b7f4221a659427e"
-host: polls.apiblueprint.org
+host: san_dbaas.apiblueprint.org
 schemes:
   - https
+
+    
 paths:
-  /questions:
-    x-summary: Questions Collection
-    x-description: ''
+  /pgsql/db:
+    x-summary: An ACID complaint SQL Database
+    x-description: 'The Postgres-9.5 with `postgres` as the root role'
     get:
-      summary: List all questions
+      summary: Get All DBs
       responses:
         200:
           description: 'List'
           examples:
             application/json:
-              - question: "Favourite programming language?"
+              - query: "List of DBs"
                 published_at: "2015-08-05T08:40:51.620Z"
-                choices:
-                  - choice: "Swift"
-                    votes: 2048
-                  - choice: "Python"
-                    votes: 1024
-                  - choice: "Objective-C"
-                    votes: 512
-                  - choice: "Ruby"
-                    votes: 256
-    post:
-      summary: Create a New Question
-      description: You may create your own question using this action. It takes a JSON object containing a question and a collection of answers in the form of choices.
+                db_list:
+                  - db_name: "ci_cd"
+                    tables: 20
+                  - db_name: "auth"
+                    tables: 10
+                  - db_name: "net_op"
+                    tables: 5
+                  - db_name: "datastore"
+                    tables: 200
+  /pgsql/db/{dbName}:
+    x-summary: The specific DB.
+    x-description: All operations to deal with one specific DB within the posgresql
+    parameters:
+      - name : dbName
+        in: path
+        type: string
+        required: true
+        description: The Name of the Database
+        
+    get:
+      summary: Get details of DB.
+      responses:
+        200:
+          description: 'Get the details'
+          examples:
+            application/json:
+              query: "Get "
+              published_at: "2014-11-11T08:40:51.620Z"
+              db_name: "ci_cd"
+              tables: 10
+    put:
+      summary: Create the DB given by the parameter. 
       responses:
         201:
           description: 'Created'
           examples:
             application/json:
-              question: "Favourite programming language?"
+              query: "Create "
               published_at: "2014-11-11T08:40:51.620Z"
-              choices:
-                - choice: "Swift"
-                  votes: 0
-                - choice: "Python"
-                  votes: 0
-                - choice: "Objective-C"
-                  votes: 0
-                - choice: "Ruby"
-                  votes: 0
+              db_name: "ci_cd"
+              tables: 0
