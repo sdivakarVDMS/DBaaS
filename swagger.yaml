@@ -11,7 +11,7 @@ schemes:
 
     
 paths:
-  /pgsql/db:
+  /v1/pgsql/db:
     x-summary: An ACID complaint SQL Database
     x-description: 'The Postgres-9.5 with `postgres` as the root role'
     get:
@@ -32,7 +32,7 @@ paths:
                     tables: 5
                   - db_name: "datastore"
                     tables: 200
-  /pgsql/db/{dbName}:
+  /v1/pgsql/db/{dbName}:
     x-summary: The specific DB.
     x-description: All operations to deal with one specific DB within the posgresql
     parameters:
@@ -55,6 +55,55 @@ paths:
               tables: 10
     put:
       summary: Create the DB given by the parameter. 
+      responses:
+        201:
+          description: 'Created'
+          examples:
+            application/json:
+              query: "Create "
+              published_at: "2014-11-11T08:40:51.620Z"
+              db_name: "ci_cd"
+              tables: 0
+  /v1/pgsql/db/{dbName}/table/{tableName}:
+    x-summary: Table in a specific DB
+    x-description: All operations to deal with the specified table
+    parameters:
+      - name : dbName
+        in: path
+        type: string
+        required: true
+        description: The Name of the Database
+      - name : tableName
+        in: path
+        type: string
+        required: true
+        description: The Name of the Database
+        
+    get:
+      summary: Get Table details.
+      responses:
+        200:
+          description: 'Get the details'
+          examples:
+            application/json:
+              query: "Get "
+              published_at: "2014-11-11T08:40:51.620Z"
+              db_name: "ci_cd"
+              table_name: "nae_publish"
+              tables: 10
+    put:
+      summary: Create the Table in the specific DB
+      responses:
+        201:
+          description: 'Created'
+          examples:
+            application/json:
+              query: "Create "
+              published_at: "2014-11-11T08:40:51.620Z"
+              db_name: "ci_cd"
+              tables: 0
+    post:
+      summary: Create the Table in the specific DB
       responses:
         201:
           description: 'Created'
