@@ -8,6 +8,30 @@ info:
 host: san_dbaas.apiblueprint.org
 schemes:
   - https
+  
+definitions:
+  columnObject:
+    type: object
+    required:
+      - columnName
+      - columnType
+    properties:
+      columnName:
+        type: string
+      columnType:
+        type: string
+        
+  tableSchema:           # <----------
+    type: object
+    required:
+      - index
+    properties:
+      column:
+        $ref: "#/definitions/columnObject"
+        type: array
+      indexList:
+        type: string
+        
 
     
 paths:
@@ -92,6 +116,13 @@ paths:
               table_name: "nae_publish"
               tables: 10
     put:
+      parameters:
+        - name: tableSchema
+          schema:
+            $ref: "#/definitions/tableSchema"
+          in: body
+          required: true
+          description: The schema of the table
       summary: Create the Table in the specific DB
       responses:
         201:
@@ -103,7 +134,14 @@ paths:
               db_name: "ci_cd"
               tables: 0
     post:
-      summary: Create the Table in the specific DB
+      parameters:
+        - name: tableSchema
+          schema:
+            $ref: "#/definitions/tableSchema"
+          in: body
+          required: true
+          description: The schema of the table
+      summary: Change the Table in the specific DB
       responses:
         201:
           description: 'Created'
