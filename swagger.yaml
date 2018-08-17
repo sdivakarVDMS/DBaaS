@@ -3,7 +3,7 @@ info:
   title: DB as a Service ( DBAAS )
   description: This would provide DB Service to external world. The users 
       can use to service to store / retrieve / update data. The service will
-      provide both the SQL and No-SQL endpoints. 
+      provide both the SQL and No-SQL endpoints. Testing the changes when done in git.
   version: "8234aab51481d37a30757d925b7f4221a659427e"
 host: san_dbaas.apiblueprint.org
 schemes:
